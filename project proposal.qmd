@@ -1,0 +1,160 @@
+---
+title: "Project Proposal"
+format: html
+author: JP Furman
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Overview
+
+Energy and the Economy. These two subjects are without a doubt
+inexplicably intertwined. The modern economies of the world rely on
+energy for transportation, climate control, food, security, data, and
+the vast majority of ordinary economic activity. Primary energy
+production is responsible for keeping on the electrical grids that power
+the computers of corporations, restaurants, and communication networks.
+Transportation infrastructure relies on the steady and reliable sourcing
+of petroleum fuels and liquids, although this may soon shift to being
+more dependent on electricity load of primary energy.
+
+Yes, it is true that the economy relies on energy to maintain its
+activity levels and expected growth. But to what extent does the
+infrastructure of the energy industry and its performance have a direct
+impact on the economy. This is a hard question to answer, especially
+from a nationwide perspective. Many different economic activities go
+into the gross domestic product of an economy that make the signals from
+individual changes difficult to measure. However, if the subject of
+interest could be reduced to a smaller unit, such as the state-level, or
+even smaller, individual changes have a better chance of being measured
+in meaningful ways.
+
+To aid in the evaluation of clean energy technology effectiveness, this
+project will present a series of data sources relating to legislation,
+energy, the economy, and how these subjects can be studied in smaller
+geographic units inside the United States. A comprehensive completion of
+this project will result in the creation of a database containing data
+from these sources in an interoperable format that will allow the answer
+of questions such as:
+
+What areas of my state would best support the adoption of electric
+vehicles?
+
+Which states provide the largest amount of incentive for Solar (PV)
+projects, and has this additional funding increased the energy
+production from solar panels?
+
+Do mandatory green power options decrease the cost of electricity in
+areas with active regulations supporting the options?
+
+The remainder of this proposal will introduce the data sources, with
+brief explanations of their content and interoperability. A series of
+accompanying visualizations will be provided to provide proof of concept
+for the data.
+
+## Data Sources
+
+### 1) Energy Information Administration (EIA) State Profiles and Energy Estimates (SEDS)
+
+<https://www.eia.gov/state/seds/>
+
+The EIA is a government operated organization responsible for providing
+Members of Congress, federal and state agencies, and the public with up
+to date and reliable information regarding the energy production,
+consumption, prices, expenditures, and other energy indicators. Many
+reports are created by the EIA to provide annual and monthly summaries
+of the energy landscape, but the value of the administration for this
+project lies in the open data available from their website.
+
+Utilizing their OPEN DATA API, information from their State Energy Data
+Profiles (SEDS) can be collected. This data provides consumption,
+production, pricing and expenditures, and other indicators at the state
+level across time.  The variables of consumption, production, and
+pricing and expenditures can be faceted by sector and energy source.
+
+Sectors: Residential, Commercial, Industrial, Transportation, and
+Electric Power
+
+Energy Sources: Petroleum, Natural Gas, Electricity, Renewable Energy,
+and Others
+
+The additional indicators included in the SEDS include variables such as
+Electric Vehicle Stock (registration count), Heating Degree Days, EV
+Electricity Consumption, Resident Population, and GDP.
+
+The data captured in the SEDS can be totaled up to create national
+statistics, but the focus of this project is to provide more granular
+level information. The use of variables such as electricity expenditures
+in the residential sector can be used to measure the changes in
+residential energy costs. Paired with production variables,
+investigation as to how the energy production profile of the state
+changed with the price of residential electricity can allude to
+relationships worthy of testing.
+
+\*This data is collected from the EIA OPEN DATA API:
+<https://www.eia.gov/opendata/documentation.php>
+
+### 2) Database of State Incentives for Renewable and Efficiency (DSIRE)
+
+https://programs.dsireusa.org/system/program
+
+Produced by the North Carolina State University's Clean Energy
+Technology Center. The database provides a consolidated list of all
+available incentives and programs available by state for clean energy.
+While in-depth information containing a link to the state legislation
+code, minimum requirements, incentive amount and other parameters for
+eligibility can be web-scraped using a more sophisticated web-crawl,
+basic information regarding the name, state/territory, category, type,
+along with created and updated date are available in quick export from a
+table.
+
+The addition of legislation data detailing the changing dynamics of each
+state’s energy landscape provides an opportunity to further understand
+the differences in state energy profiles. Connecting this data with the
+SEDS may allude to some obvious trends such as the state with the
+greatest incentive for solar having the highest production, but it would
+also allow the price in solar produced energy to be compared between
+states with few and many incentives for the production of solar energy.
+
+### 3) Bureau of Labor Statistics (BLS)
+
+<https://www.bls.gov/cpi/>
+
+Another federal government data service, this website provides data
+about employment and other economic indicators. While labor data can be
+included if needed, the focus of the BLS data service will be to connect
+EIA activities and technologies targeted by DSIRE legislation to price
+inflation. Using the Consumer Price Index (CPI) data sets, changes in
+goods and services can be measured across states and other geographic
+areas. While price and expenditures changes in energy are already
+recorded in the SEDS, the resulting price changes in a final good
+sourced from an industrial producer are not seen. This could further the
+narratives of our findings by sharing consumer impacts of energy policy.
+
+### 4) U.S. Census Bureau
+
+https://www.census.gov/programs-surveys/economic-census/year/2022/news-updates/ecdata-releases.html#accordion-e149bf3980-item-5a5c52d533
+
+Data API: https://api.census.gov/data.html
+
+Also operated as a federal government agency, the U.S. Census Bureau
+provides information about the population of the Untied States and its
+territories. Aside from population estimates, the Bureau also provides
+economic surveys (the Economic Census) to estimate the economic
+activities of a particular unit or region. The Census Bureau also
+provides the standard for U.S. geographic coding, allowing states to be
+grouped together into regions, or divided up further into zip codes and
+census tracts. Use of the Economic Census can allow for a deep dive into
+the localized impacts of policy.
+
+### 5) **North American Industry Standard Codes (NAICS)**
+
+Lastly, a set of industry classification codes used to group economic
+activities by the federal government. The Energy Information
+Administration (EIA), Bureau of Economic Activity (BEA), Bureau of Labor
+Statistics (BLS), and U.S. Census use these codes to classify recorded
+groups of economic activity. In a robust analysis of the DSIRE policies
+these codes can be used to match the supported activities and
+technologies of the DSIRE to economic and energy activities at different
+geographic levels.
