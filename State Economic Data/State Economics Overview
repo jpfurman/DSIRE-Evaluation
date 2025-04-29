@@ -1,0 +1,4 @@
+This file is created to initialize the State Economic Data Folder.
+The intention of this folder is to fill it with the code scripts and data files associated with Inflation and Economic Activity
+
+Sources should include BLS, NAICS, and possibly FRED.
