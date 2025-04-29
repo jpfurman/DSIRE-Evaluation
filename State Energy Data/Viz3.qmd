@@ -1,0 +1,74 @@
+---
+title: "Visualization 3"
+author: "JP Furman"
+format: html
+---
+
+## State Energy Data Profiles
+
+Taking a dive into the Energy Information Agency's (EIA) State Energy Data System (SEDS).
+
+### Code
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggthemes)
+```
+
+
+```{r}
+seds_co <- read_csv("~/Documents/DataViz/Final Project Data/CO_SEDS_19_23 copy.csv", show_col_types = F) ## read data
+residential_co <- filter(seds_co, str_detect(seds_co$seriesDescription, "residential"))
+
+residential_expend <- filter(residential_co, (residential_co$unit == "Million dollars"))%>%
+  group_by(seriesDescription, period)
+
+residential_price <- filter(residential_co, (residential_co$unit == "Dollars per million Btu"))%>%
+  group_by(seriesDescription, period)
+
+totals <- filter(residential_expend, seriesDescription == "Total energy expenditures in the residential sector") ## get total amounts for each year in series
+
+residential_expend <- residential_expend%>%
+  mutate(seriesDescription = fct_lump_n(seriesDescription, n = 6, other_level= "other", w = value))
+
+residential_expen_prop <- left_join(residential_expend, totals, join_by(period == period))%>% ##join totals for perc calc
+  mutate(percentage = round(value.x / value.y,2))%>%
+  filter(`seriesDescription.x` != "Total energy expenditures in the residential sector" & 
+         `seriesDescription.x` != "Primary energy total expenditures in the residential sector" &
+         `seriesDescription.x` != "All petroleum products total expenditures in the residential sector"&
+         `seriesDescription.x` != "Hydrocarbon gas liquids expenditures in the residential sector" &
+         `percentage` > 0)
+```
+### Colorado's Energy Expensitures in the Residential Sector
+
+Keeping the series of visualizations relevant, this graphic introduces the state-level energy mix to our collection of visuals. Subsetting the state of Colorado's profile into residential sector expenditures, everyday residents of the state can get a glimpse into how their utility charges have been changing. The data is transformed for each energy source to be characterized across time as a percentage of total energy expenditures.
+
+In this graph, a relative increase in natural gas costs have come to Colorado residents. This chart does not showcase the absolute increase in cost over time. This change could have resulted from a price hike or demand increase in natural gas, or from an opposite mechanism towards electricity. Incorporating the consumption and production patterns of these energy soruces would give us more insight into why this change occurred. Incorporating this graph into an interactive dashboard for state energy profiles would allow users to compare resident (and other sector) energy costs across states. 
+
+
+```{r chart}
+residential_expen_prop$seriesDescription.x <- str_replace(residential_expen_prop$seriesDescription.x, " expenditures [[:alpha:]].*", "")
+
+residential_expen_prop %>%
+  ggplot(aes(x= period, y= percentage, fill = `seriesDescription.x`))+
+  geom_area()+
+  coord_cartesian(ylim = c(0,1))+
+  labs(x= "Year",
+       y= "% of Total Expenditures",
+       fill = "Energy Source",
+       title = "Residential Sector Energy Expenditures",
+       subtitle = "Colorado: 2019 - 2022",
+       caption = "Data taken from Energy Information Administration (EIA)\n API for the State Energy Data System (SEDS).")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c("chartreuse3", "aquamarine1", "tomato","burlywood"))+
+  theme_clean()+
+  theme(
+    title = element_text(face ="bold.italic"),
+    axis.title = element_text(face = "bold"),
+    legend.text = element_text(face="bold"),
+    legend.title = element_text(face="bold")
+  )
+
+```
+
+Ideally a larger time range can be included to show longer trends, but without an automated data pull from the EIA API that process is very cumbersome. Focus on visual technique is top priority right now.
